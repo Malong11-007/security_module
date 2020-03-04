@@ -38,16 +38,30 @@ router.put('/update/:id', (req,res) => {
     console.log(error);
     return res.status(403).send(error);
   } else {
-    db.query('INSERT INTO application SET ? Where ID = ?',[req.body,req.params.id],(err,result) => {
+    db.query('UPDATE application SET ? Where Application_ID = ?',[req.body,req.params.id],(err,result) => {
       if (err) throw err;
 
       console.log(`Changed ${result.changedRows} row(s)`);
+      return res.status(200).json({
+        msg:`Changed ${result.changedRows} row(s)`,
+        updated: true
+      });
     })
   }
 })
 
 router.delete('/delete/:id',(req,res) => {
-  
+  db.query('DELETE from application Where Application_ID = ?',[req.params.id],(err,result) => {
+    if (err){
+      console.log(err)
+      return res.status(400).send(err)
+    };
+
+    return res.status(200).json({
+      msg:`Application_ID : ${req.params.id} Deleted`,
+      deleted: true
+    });
+  })
 })
 
 module.exports = router;
