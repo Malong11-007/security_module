@@ -5,6 +5,7 @@ const { joiApplicationInsert, joiApplicationUpdate } = require('../joiSchemas/jo
 
 // application : GET ALL route
 router.get('/get',(req,res) => {
+  //where Organization_ID clause needs to be added
   db.query('SELECT * from application',(err,rows) => {
     if(err) throw err;
 
@@ -16,7 +17,7 @@ router.get('/get',(req,res) => {
 // application : POST route
 router.post('/post',(req,res) => {
   const { error, value } = joiApplicationInsert.validate(req.body);
-  console.log(`Value from Joi - ${value}`);
+  console.log('Value from Joi',value);
   if(error){
     console.log(error);
     return res.status(403).send(error);
@@ -33,7 +34,7 @@ router.post('/post',(req,res) => {
 // application : UPDATE route
 router.put('/update/:id', (req,res) => {
   const { error, value } = joiApplicationUpdate.validate(req.body);
-  console.log(`Value from Joi - ${value}`);
+  console.log('Value from Joi',value);
   if(error){
     console.log(error);
     return res.status(403).send(error);
